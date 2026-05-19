@@ -10,6 +10,7 @@ services:
       - HERMES_GID=${HERMES_GID:-10000}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_ALLOWED_USERS=${TELEGRAM_ALLOWED_USERS}
     command: ["gateway", "run"]
 
 volumes:
