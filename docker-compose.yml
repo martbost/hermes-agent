@@ -3,6 +3,7 @@ services:
     image: ghcr.io/martbost/hermes-agent:latest
     container_name: hermes
     restart: unless-stopped
+    shm_size: '512m'
     volumes:
       - hermes-data:/opt/data
     environment:
