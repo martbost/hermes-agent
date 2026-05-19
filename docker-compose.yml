@@ -1,7 +1,6 @@
 services:
   gateway:
-    build: .
-    image: hermes-agent
+    image: ghcr.io/martbost/hermes-agent:latest
     container_name: hermes
     restart: unless-stopped
     volumes:
