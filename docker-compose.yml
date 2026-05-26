@@ -83,7 +83,14 @@ services:
     volumes:
       - ~/.hermes:/opt/data
     environment:
+      - S6_KEEP_ENV=1
+      - HOME=/opt/data
+      - XDG_STATE_HOME=/opt/data/.local/state
+      - XDG_CACHE_HOME=/opt/data/.cache
+      - XDG_DATA_HOME=/opt/data/.local/share
       - HERMES_UID=${HERMES_UID:-10000}
       - HERMES_GID=${HERMES_GID:-10000}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - HONCHO_API_KEY=${HONCHO_API_KEY}
     # Localhost-only. For remote access, tunnel via `ssh -L 9119:localhost:9119`.
     command: ["dashboard", "--host", "127.0.0.1", "--no-open"]
