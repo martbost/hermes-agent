@@ -37,6 +37,10 @@ services:
       - ~/.hermes:/opt/data
     environment:
       - S6_KEEP_ENV=1
+      - HOME=/opt/data
+      - XDG_STATE_HOME=/opt/data/.local/state
+      - XDG_CACHE_HOME=/opt/data/.cache
+      - XDG_DATA_HOME=/opt/data/.local/share
       - HERMES_UID=${HERMES_UID:-10000}
       - HERMES_GID=${HERMES_GID:-10000}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
