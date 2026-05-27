@@ -73,24 +73,14 @@ services:
       # - GOOGLE_CHAT_ALLOWED_USERS=${GOOGLE_CHAT_ALLOWED_USERS}
     command: ["gateway", "run"]
 
-  dashboard:
-    image: hermes-agent
-    container_name: hermes-dashboard
-    restart: unless-stopped
-    network_mode: host
-    depends_on:
-      - gateway
-    volumes:
-      - ~/.hermes:/opt/data
-    environment:
-      - S6_KEEP_ENV=1
-      - HOME=/opt/data
-      - XDG_STATE_HOME=/opt/data/.local/state
-      - XDG_CACHE_HOME=/opt/data/.cache
-      - XDG_DATA_HOME=/opt/data/.local/share
-      - HERMES_UID=${HERMES_UID:-10000}
-      - HERMES_GID=${HERMES_GID:-10000}
-      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      - HONCHO_API_KEY=${HONCHO_API_KEY}
-    # Localhost-only. For remote access, tunnel via `ssh -L 9119:localhost:9119`.
-    command: ["dashboard", "--host", "127.0.0.1", "--no-open"]
+  # Dashboard service intentionally removed.
+  # Upstream's design runs both gateway and dashboard as separate containers
+  # both mounting /opt/data and both running s6-overlay supervisors — they
+  # fight for the gateway log lock at /opt/data/logs/gateways/default/lock,
+  # causing the gateway to spin on lock failures.
+  #
+  # To launch the dashboard on-demand inside the gateway container instead:
+  #   docker exec -d hermes /opt/hermes/.venv/bin/hermes dashboard --host 127.0.0.1 --no-open
+  # Then tunnel from your laptop: ssh -N -L 9119:localhost:9119 root@coolify.saasy.top
+  # Stop the dashboard when done:
+  #   docker exec hermes pkill -f 'hermes dashboard'
